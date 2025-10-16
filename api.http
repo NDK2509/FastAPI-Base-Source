@@ -1,0 +1,9 @@
+POST localhost:8000/api/v1/users
+Content-Type: application/json
+
+{
+  "first_name": "Ky",
+  "last_name": "Nguyen Dang",
+  "username": "ndk",
+  "password" : "123"
+}
