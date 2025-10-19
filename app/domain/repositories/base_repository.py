@@ -70,6 +70,20 @@ class BaseRepository(Generic[ModelType]):
 
         return list(self.session.exec(statement).all())
 
+    def get_one_with_filters(
+            self,
+            filters: Dict[str, Any]
+    ) -> Optional[ModelType]:
+        """Get a single record with custom filters"""
+        statement = select(self.model)
+
+        # Apply filters
+        for key, value in filters.items():
+            if hasattr(self.model, key):
+                statement = statement.where(getattr(self.model, key) == value)
+
+        return self.session.exec(statement).first()
+
     def update(self, id: Any, obj_in: Dict[str, Any]) -> Optional[ModelType]:
         """Update a record by ID"""
         db_obj = self.get_by_id(id)
