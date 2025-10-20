@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 
 from application.use_cases.generate_auth_tokens_usecase import GenerateAuthTokensUseCase
@@ -21,13 +22,26 @@ async def login(data: LoginSchema, session: SessionDep):
 
     user_info = UserSchema.model_validate(user)
     tokens = GenerateAuthTokensUseCase().invoke(user_info)
-    return AuthSchema(
+    auth_data = AuthSchema(
         user=user_info,
         refresh_token=tokens.refresh_token,
         access_token=tokens.access_token
     )
+    response = JSONResponse(
+        content=auth_data.model_dump(),
+        status_code=200,
+    )
+    response.set_cookie("refresh_token", tokens.refresh_token)
+    response.set_cookie("access_token", tokens.access_token)
+    return response
 
 
 @auth_router.get("/logout")
 async def logout():
-    return {"message": "Logout here"}
+    response = JSONResponse(
+        content={"msg": "Logout successful!"},
+        status_code=200,
+    )
+    response.delete_cookie("refresh_token")
+    response.delete_cookie("access_token")
+    return response
