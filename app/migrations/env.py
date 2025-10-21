@@ -4,6 +4,7 @@ from sqlmodel import SQLModel
 from alembic import context
 
 from infrastructure.database.config import postgres_url
+from domain.entities import * # Noqa
 
 # this is the Alembic Config object
 config = context.config

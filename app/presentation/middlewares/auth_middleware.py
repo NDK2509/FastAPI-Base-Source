@@ -13,10 +13,13 @@ settings = get_settings()
 class AuthMiddleware(BaseHTTPMiddleware):
     __DISABLE_AUTH_PATHS__ = [
         "/docs", "/openapi.json", "/redoc",
-        "/api/v1/auth/login"
+        "/api/v1/auth/login",
+        "/api/v1/auth/google"
     ]
 
     async def dispatch(self, request: Request, call_next):
+        print(request.url.path)
+        print(request.url.path.startswith("/api/v1/auth/google"))
         if not any(request.url.path.startswith(p)
                    for p in self.__DISABLE_AUTH_PATHS__):
             token = request.cookies.get('access_token', None)

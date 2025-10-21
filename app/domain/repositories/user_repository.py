@@ -9,3 +9,8 @@ class UserRepository(BaseRepository):
         return self.get_one_with_filters({
             UserEntity.username.name: username
         })
+    
+    def get_by_email(self, email: str) -> UserEntity | None:
+        return self.get_one_with_filters({
+            UserEntity.email.name: email
+        })

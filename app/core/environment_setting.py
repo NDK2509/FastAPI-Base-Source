@@ -1,10 +1,13 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     app_name: str = "FastAPI Example API"
     tz: str = "Asia/Ho_Chi_Minh"
-    
+    env: Literal["development", "production"] = "development"
+
     # Database Settings
     db_username: str
     db_password: str
@@ -18,5 +21,10 @@ class Settings(BaseSettings):
     jwt_refresh_secret: str
     jwt_refresh_expiration: int
     jwt_algorithm: str
+
+    # Google SSO Settings
+    google_client_id: str | None = None
+    google_client_secret: str | None = None
+    google_redirect_url: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env")

@@ -84,6 +84,18 @@ class BaseRepository(Generic[ModelType]):
 
         return self.session.exec(statement).first()
 
+    def get_one_with_conditions(
+            self,
+            conditions: list
+    ) -> Optional[ModelType]:
+        """Get a single record with custom filters"""
+        statement = select(self.model)
+
+        for condition in conditions:
+            statement = statement.where(condition)
+
+        return self.session.exec(statement).first()
+
     def update(self, id: Any, obj_in: Dict[str, Any]) -> Optional[ModelType]:
         """Update a record by ID"""
         db_obj = self.get_by_id(id)

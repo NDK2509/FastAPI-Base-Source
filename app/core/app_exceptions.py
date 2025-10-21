@@ -40,3 +40,18 @@ class UserIdMissingInTokenException(AuthException):
     detail = (
         "Please login again to get a new access token"
     )
+
+
+class UserAlreadyExistsException(AppException):
+    status_code = HTTPStatus.CONFLICT
+    msg = "User already exists!"
+
+
+class UsernameAlreadyExistsException(AppException):
+    status_code = HTTPStatus.CONFLICT
+    msg = "Username already exists!"
+
+
+class EmailAlreadyExistsException(AppException):
+    status_code = HTTPStatus.CONFLICT
+    msg = "Email already exists!"
