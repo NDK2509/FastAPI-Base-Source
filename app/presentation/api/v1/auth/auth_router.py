@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Request
+from fastapi import Request, Response
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.routing import APIRouter
 from fastapi_sso import GoogleSSO
@@ -6,6 +6,7 @@ from fastapi_sso import GoogleSSO
 from application.use_cases.create_or_get_google_user_usecase import CreateOrGetGoogleUserUseCase
 from application.use_cases.generate_auth_tokens_usecase import GenerateAuthTokensUseCase
 from application.use_cases.login_usecase import LoginUseCase
+from core.app_exceptions import InvalidCredentialsException
 from core.dependencies import get_settings
 from infrastructure.database.config import SessionDep
 from presentation.api.v1.auth.auth_schemas import LoginSchema, AuthSchema
@@ -19,10 +20,10 @@ auth_router = APIRouter()
     "/login",
     response_model=AuthSchema,
 )
-async def login(data: LoginSchema, session: SessionDep):
+async def login(data: LoginSchema, session: SessionDep, response: Response):
     user = LoginUseCase(session).invoke(data)
     if not user:
-        raise HTTPException(status_code=401, detail="Incorrect username or password")
+        raise InvalidCredentialsException()
 
     user_info = UserSchema.model_validate(user)
     tokens = GenerateAuthTokensUseCase().invoke(user_info)
@@ -31,13 +32,9 @@ async def login(data: LoginSchema, session: SessionDep):
         refresh_token=tokens.refresh_token,
         access_token=tokens.access_token
     )
-    response = JSONResponse(
-        content=auth_data.model_dump(),
-        status_code=200,
-    )
     response.set_cookie("refresh_token", tokens.refresh_token)
     response.set_cookie("access_token", tokens.access_token)
-    return response
+    return auth_data
 
 
 @auth_router.get("/logout")

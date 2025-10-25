@@ -1,5 +1,6 @@
 from datetime import date
 from uuid import UUID
+
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 
@@ -8,7 +9,7 @@ class UserBase(BaseModel):
     last_name: str
     username: str
     email: str | None = None
-    birthday: date | None = None
+    birthday: str | None = None
     avatar: str | None = None
 
 
@@ -26,5 +27,13 @@ class UserSchema(UserBase):
     def convert_uuid_to_str(cls, v):
         # 'v' is the raw value coming in (the UUID object)
         if isinstance(v, UUID):
+            return str(v)
+        return v
+
+    @field_validator('birthday', mode='before')
+    @classmethod
+    def convert_birthday_to_str(cls, v):
+        # 'v' is the raw value coming in (the date object)
+        if isinstance(v, date):
             return str(v)
         return v

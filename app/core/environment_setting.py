@@ -1,5 +1,6 @@
 from typing import Literal
 
+from pydantic import EmailStr, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -26,5 +27,14 @@ class Settings(BaseSettings):
     google_client_id: str | None = None
     google_client_secret: str | None = None
     google_redirect_url: str | None = None
+
+    # Mail configs
+    mail_from: EmailStr | None = None
+    mail_username: str = ''
+    mail_password: SecretStr = ''
+    mail_server: str = ''
+    mail_port: int | None = None
+    mail_ssl_tls: bool = True
+    mail_starttls: bool = False
 
     model_config = SettingsConfigDict(env_file=".env")

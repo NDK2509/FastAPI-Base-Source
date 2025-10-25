@@ -1,0 +1,136 @@
+<!-- otp_email.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ app_name }} — One-Time Code</title>
+    <style>
+        /* keep styles inline-safe for most email clients */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, serif;
+            background: #f4f6f8;
+            color: #0f1724;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 28px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(13, 20, 30, 0.08);
+        }
+
+        .header {
+            padding: 20px 24px;
+            background: linear-gradient(90deg, #0ea5a4, #06b6d4);
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: 0.2px;
+        }
+
+        .body {
+            padding: 28px 24px;
+        }
+
+        .greeting {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+        }
+
+        .otp-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 18px 0;
+            padding: 18px;
+            border-radius: 8px;
+            background: #f1fbfb;
+            border: 1px dashed #cdeaea;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #03363b;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 8px;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            background: #0ea5a4;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .footer {
+            padding: 18px 24px;
+            font-size: 12px;
+            color: #64748b;
+            background: #fafafa;
+            text-align: center;
+        }
+
+        a.support {
+            color: #0ea5a4;
+            text-decoration: none;
+        }
+
+        @media (max-width: 420px) {
+            .otp-card {
+                font-size: 22px;
+                padding: 14px;
+                letter-spacing: 3px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container" role="article" aria-label="{{ app_name }} One-Time Password">
+    <div class="header">
+        <h1>{{ app_name }}</h1>
+    </div>
+
+    <div class="body">
+        <p class="greeting">Hi {{ username | default("there") }},</p>
+
+        <p>Use the code below to sign in to <strong>{{ app_name }}</strong>. This code is valid for <strong>{{
+            expires_in }}</strong>.</p>
+
+        <div class="otp-card" aria-hidden="false" role="textbox" tabindex="0">
+            {{ otp }}
+        </div>
+
+        <p class="note">If you did not request this code, you can safely ignore this email. For security, do not share
+            this code with anyone.</p>
+
+        <p style="margin-top:14px;">
+            <a class="cta" href="#" target="_blank" rel="noopener">Need help?</a>
+        </p>
+    </div>
+
+    <div class="footer">
+        <div>{{ app_name }} • <a class="support" href="mailto:{{ support_email }}">{{ support_email }}</a></div>
+        <div style="margin-top:6px;">If the button doesn't work, copy the code above into the app.</div>
+    </div>
+</div>
+</body>
+</html>

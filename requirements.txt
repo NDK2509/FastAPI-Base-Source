@@ -32,3 +32,4 @@ bcrypt==5.0.0
 pytz==2025.2
 pyjwt==2.10.1
 fastapi-sso==0.18.0
+fastapi-mail==1.5.7

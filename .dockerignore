@@ -6,3 +6,4 @@ Dockerfile
 Dockerfile.dev
 docker-compose.yml
 *.md
+requirements.test.txt

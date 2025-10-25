@@ -17,6 +17,12 @@ class AuthException(AppException):
     msg = "Authentication failed!"
 
 
+class InvalidCredentialsException(AuthException):
+    msg = "Invalid credentials!"
+    detail = (
+        "Please check your username and password"
+    )
+
 class AccessTokenExpiredException(AuthException):
     msg = "Access token expired!"
     detail = (
