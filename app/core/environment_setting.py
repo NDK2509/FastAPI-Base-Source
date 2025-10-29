@@ -37,4 +37,11 @@ class Settings(BaseSettings):
     mail_ssl_tls: bool = True
     mail_starttls: bool = False
 
+    # Redis configs
+    redis_host: str
+    redis_port: int = 6379
+    redis_username: str | None = None
+    redis_password: str | None = None
+    redis_db: int = 0
+
     model_config = SettingsConfigDict(env_file=".env")

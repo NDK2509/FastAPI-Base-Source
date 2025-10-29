@@ -8,6 +8,9 @@ services:
       - ./app:/app
     ports:
      - "8080:8080"
+    depends_on:
+      - db
+      - redis
 
   db:
     image: postgres:latest
@@ -21,6 +24,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:latest
+    container_name: fastapi_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
   mailcatcher:
     image: schickling/mailcatcher
     container_name: mailcatcher
@@ -30,3 +41,4 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
