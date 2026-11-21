@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi.routing import APIRouter
 
 from application.use_cases.create_user_usecase import CreateUserUseCase
@@ -15,6 +17,6 @@ async def get_all(session: SessionDep):
     return GetAllUsersUseCase(session).invoke()
 
 
-@user_router.post("/", response_model=UserSchema)
+@user_router.post("/", response_model=UserSchema, status_code=HTTPStatus.CREATED)
 async def create(data: UserCreateSchema, session: SessionDep):
     return CreateUserUseCase(session).invoke(data)

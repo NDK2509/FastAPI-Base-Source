@@ -1,4 +1,57 @@
-.venv
-.idea
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+wheels/
+*.egg-info/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+.ENV/
+
+# Environment variables
+.env
+.env.*
 *.env
-*.pyc
+!.env.sample
+!.env.example
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.htmlcov/
+coverage.xml
+.tox/
+.nox/
+
+# Linters & type checkers
+.mypy_cache/
+.ruff_cache/
+
+# Local databases & logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# IDEs & editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.openidea/
+# OS
+.DS_Store
+Thumbs.db
+
+# Project reports
+.reports/
